@@ -3383,7 +3383,7 @@ namespace GNDISystemFinal
 			public const int browser_actions_menu_view = 2131230760;
 			
 			// aapt resource value: 0x7F080029
-			public const int btnEditPerson = 2131230761;
+			public const int btnEditMember = 2131230761;
 			
 			// aapt resource value: 0x7F08002A
 			public const int btnLogin = 2131230762;

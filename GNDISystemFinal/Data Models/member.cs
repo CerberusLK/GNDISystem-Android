@@ -16,8 +16,8 @@ namespace GNDISystemFinal.Data_Models
     {
         public String name { get; set; }
         public String birthday { get; set; }
-        public int age { get; set; }
-        public bool voteEligibility { get; set; }
+        public String age { get; set; }
+        public String voteEligibility { get; set; }
         public String citizenNumber { get; set; }
     }
 }
