@@ -70,7 +70,7 @@ namespace GNDISystemFinal.Adapter
             lblBirthday = (TextView)itemView.FindViewById(Resource.Id.lblBirthday);
             lblAge = (TextView)itemView.FindViewById(Resource.Id.lblAge);
             lblVStatus = (TextView)itemView.FindViewById(Resource.Id.lblVStatus);
-            btnEditMember = (ImageView)itemView.FindViewById(Resource.Id.btnEditPerson);
+            btnEditMember = (ImageView)itemView.FindViewById(Resource.Id.btnEditMember);
 
             itemView.Click += (sender, e) => clickListener(new memberAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
             itemView.LongClick += (sender, e) => longClickListener(new memberAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
