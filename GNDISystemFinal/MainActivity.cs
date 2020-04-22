@@ -9,12 +9,16 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using Firebase;
+using Firebase.Database;
 
 namespace GNDISystemFinal
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
+        Button connectionTest;
+        FirebaseDatabase database;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -22,8 +26,40 @@ namespace GNDISystemFinal
             SetContentView(Resource.Layout.LoginForm);
             Button btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             btnLogin.Click += BtnLogin_Click;
+
+            //connection test purpose only
+            connectionTest = FindViewById<Button>(Resource.Id.btnTestConnection);
+            connectionTest.Click += ConnectionTest_Click;
         }
 
+        private void ConnectionTest_Click(object sender, EventArgs e)
+        {
+            Initializedatabase();
+        }
+
+        void Initializedatabase ()
+        {
+            var app = FirebaseApp.InitializeApp(this);
+            if (app == null)
+            {
+                var option = new FirebaseOptions.Builder()
+                    .SetApplicationId("gndisystem-faf8d")
+                    .SetApiKey("AIzaSyClyXwKkJLudsnvwcdkybFGNbXxKZlvCTs")
+                    .SetDatabaseUrl("https://gndisystem-faf8d.firebaseio.com")
+                    .SetStorageBucket("gndisystem-faf8d.appspot.com")
+                    .Build();
+                app = FirebaseApp.InitializeApp(this, option);
+                database = FirebaseDatabase.GetInstance(app);
+            }
+            else
+            {
+                database = FirebaseDatabase.GetInstance(app);
+            }
+            database = FirebaseDatabase.GetInstance(app);
+            DatabaseReference dbref = database.GetReference("UserSupport");
+            dbref.SetValue("Ticket2");
+            Toast.MakeText(this, "Completed", ToastLength.Short).Show();
+        }
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             SetContentView(Resource.Layout.activity_main);

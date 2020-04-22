@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "102469157562",
+    "firebase_url": "https://gndisystem-faf8d.firebaseio.com",
+    "project_id": "gndisystem-faf8d",
+    "storage_bucket": "gndisystem-faf8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102469157562:android:08b01a565bfff329bab883",
+        "android_client_info": {
+          "package_name": "com.codecerberus.gndisystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102469157562-q8omi82080mofnlksjr55lj3p0ao00je.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClyXwKkJLudsnvwcdkybFGNbXxKZlvCTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102469157562-q8omi82080mofnlksjr55lj3p0ao00je.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
