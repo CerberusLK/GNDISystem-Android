@@ -61,6 +61,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\LoginFormActivity.cs" />
+    <Compile Include="Activities\newMember.cs" />
     <Compile Include="Adapter\memberAdapter.cs" />
     <Compile Include="Data Models\member.cs" />
     <Compile Include="Fragment\addMemberFragment.cs" />

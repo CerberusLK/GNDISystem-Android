@@ -11,14 +11,15 @@ using Android.Support.Design.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using static Android.App.DatePickerDialog;
 
 namespace GNDISystemFinal.Fragment
 {
-    public class addMemberFragment : Android.Support.V4.App.DialogFragment
+    public class addMemberFragment : Android.Support.V4.App.DialogFragment, Android.App.DatePickerDialog.IOnDateSetListener
     {
         TextInputLayout fullName;
         TextInputLayout NIC;
-        DatePicker birthday;
+        //DatePicker birthday;
         TextInputLayout email;
         TextInputLayout phoneNumber;
         Button newMemberSubmit;
@@ -39,19 +40,28 @@ namespace GNDISystemFinal.Fragment
             View view = inflater.Inflate(Resource.Layout.newMember, container, false);
             fullName = (TextInputLayout)view.FindViewById(Resource.Id.fullNameText);
             NIC = (TextInputLayout)view.FindViewById(Resource.Id.NICText);
-            birthday = (DatePicker)view.FindViewById(Resource.Id.birthdayDatePicker);
+            //birthday = (DatePicker)view.FindViewById(Resource.Id.birthdayDatePicker);
             email = (TextInputLayout)view.FindViewById(Resource.Id.emailText);
             phoneNumber = (TextInputLayout)view.FindViewById(Resource.Id.phoneNumberText);
             newMemberSubmit = (Button)view.FindViewById(Resource.Id.newMemberSubmitButton);
             selectBirthday = (Button)view.FindViewById(Resource.Id.selectBirthdayButton);
+            selectedDate = (TextView)view.FindViewById(Resource.Id.selectedDateLabel);
 
-            selectBirthday.Click += SelectBirthday_Click;
+            //selectBirthday.Click += SelectBirthday_Click;
             return view;
+
         }
 
-        private void SelectBirthday_Click(object sender, EventArgs e)
+        public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
         {
-            throw new NotImplementedException();
+            selectedDate.Text = new DateTime(year, month, dayOfMonth).ToShortDateString();
         }
+
+        /*private void SelectBirthday_Click(object sender, EventArgs e)
+        {
+            var dateTimeNow = DateTime.Now;
+            DatePickerDialog datePicker = new DatePickerDialog(this, this, dateTimeNow.Year, dateTimeNow.Month, dateTimeNow.Day);
+            datePicker.Show();
+        }*/
     }
 }

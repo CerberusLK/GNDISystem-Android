@@ -73,15 +73,15 @@
                         android:layout_alignParentRight="true"
                         android:id="@+id/selectBirthdayButton"/>
                 </RelativeLayout>
-                <DatePicker
+                <!--<DatePicker
                     android:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/birthdayDatePicker"/>
+                    android:id="@+id/birthdayDatePicker"/>-->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="Selected Birthday"
                     android:textSize="18sp"
                     android:id="@+id/selectedDateLabel"
                     android:visibility="visible"/>
@@ -114,6 +114,13 @@
                     android:layout_height="wrap_content"
                     android:text="Submit"
                     android:id="@+id/newMemberSubmitButton"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"/>
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:id="@+id/newMemberSubmitCancelButton"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"/>
             </LinearLayout>

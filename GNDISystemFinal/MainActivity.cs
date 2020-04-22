@@ -16,57 +16,65 @@ using GNDISystemFinal.Fragment;
 
 namespace GNDISystemFinal
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = false)]
 
-    public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
+    public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener, Android.App.DatePickerDialog.IOnDateSetListener
     {
         Button connectionTest;
         FirebaseDatabase database;
         RecyclerView MyRecyclerView;
         ImageView addMember;
         addMemberFragment addmemberfragment;
+        Button selectDate;
+        Button submitNewMember;
+        TextView selectBirthday;
+        Button cancelNewMemberSubmit;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            SetContentView(Resource.Layout.activity_main);
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            SetContentView(Resource.Layout.LoginForm);
-            Button btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
-            btnLogin.Click += BtnLogin_Click;
+            //SetContentView(Resource.Layout.LoginForm);
+            Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
 
-            //connection test purpose only
-            connectionTest = FindViewById<Button>(Resource.Id.btnTestConnection);
-            connectionTest.Click += ConnectionTest_Click;
+            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
+            fab.Click += FabOnClick;
+
+            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
+            drawer.AddDrawerListener(toggle);
+            toggle.SyncState();
+
+            NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            navigationView.SetNavigationItemSelectedListener(this);
+
+            //content page items
+            MyRecyclerView = (RecyclerView)FindViewById(Resource.Id.myRecyclerView);
         }
 
-        private void ConnectionTest_Click(object sender, EventArgs e)
-        {
-            Initializedatabase();
-        }
-
-        void Initializedatabase ()
-        {
-            var app = FirebaseApp.InitializeApp(this);
-            if (app == null)
-            {
-                var option = new FirebaseOptions.Builder()
-                    .SetApplicationId("gndisystem-faf8d")
-                    .SetApiKey("AIzaSyClyXwKkJLudsnvwcdkybFGNbXxKZlvCTs")
-                    .SetDatabaseUrl("https://gndisystem-faf8d.firebaseio.com")
-                    .SetStorageBucket("gndisystem-faf8d.appspot.com")
-                    .Build();
-                app = FirebaseApp.InitializeApp(this, option);
-                database = FirebaseDatabase.GetInstance(app);
-            }
-            else
-            {
-                database = FirebaseDatabase.GetInstance(app);
-            }
-            database = FirebaseDatabase.GetInstance(app);
-            DatabaseReference dbref = database.GetReference("UserSupport");
-            dbref.SetValue("Ticket2");
-            Toast.MakeText(this, "Completed", ToastLength.Short).Show();
-        }
         private void BtnLogin_Click(object sender, EventArgs e)
+        {
+            
+            
+            addMember = (ImageView)FindViewById(Resource.Id.btnAddMember);
+            addMember.Click += AddMember_Click;
+        }
+
+        private void AddMember_Click(object sender, EventArgs e)
+        {
+            /*addmemberfragment = new addMemberFragment();
+            var trans = SupportFragmentManager.BeginTransaction();
+            addmemberfragment.Show(trans,"new member");*/
+            selectDate = (Button)FindViewById(Resource.Id.selectBirthdayButton);
+            cancelNewMemberSubmit= (Button)FindViewById(Resource.Id.newMemberSubmitCancelButton);
+            selectBirthday = (TextView)FindViewById(Resource.Id.selectedDateLabel);
+            SetContentView(Resource.Layout.newMember);
+            selectDate.Click += SelectDate_Click;
+            cancelNewMemberSubmit.Click += CancelNewMemberSubmit_Click;
+        }
+
+        private void CancelNewMemberSubmit_Click(object sender, EventArgs e)
         {
             SetContentView(Resource.Layout.activity_main);
             Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -89,11 +97,16 @@ namespace GNDISystemFinal
             addMember.Click += AddMember_Click;
         }
 
-        private void AddMember_Click(object sender, EventArgs e)
+        private void SelectDate_Click(object sender, EventArgs e)
         {
-            addmemberfragment = new addMemberFragment();
-            var trans = SupportFragmentManager.BeginTransaction();
-            addmemberfragment.Show(trans,"new member");
+            var dateTimeNow = DateTime.Now;
+            DatePickerDialog datePicker = new DatePickerDialog(this, this, dateTimeNow.Year, dateTimeNow.Month, dateTimeNow.Day);
+            datePicker.Show();
+        }
+
+        public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
+        {
+            selectBirthday.Text = new DateTime(year, month, dayOfMonth).ToShortDateString();
         }
 
         public override void OnBackPressed()
@@ -102,6 +115,7 @@ namespace GNDISystemFinal
             if(drawer.IsDrawerOpen(GravityCompat.Start))
             {
                 drawer.CloseDrawer(GravityCompat.Start);
+                SetContentView(Resource.Layout.activity_main);
             }
             else
             {
@@ -172,6 +186,8 @@ namespace GNDISystemFinal
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+
     }
 }
 
