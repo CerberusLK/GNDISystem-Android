@@ -12,13 +12,14 @@ using Android.Views;
 using Android.Widget;
 using Firebase;
 using Firebase.Database;
+using GNDISystemFinal.Activities;
 using GNDISystemFinal.Fragment;
 
 namespace GNDISystemFinal
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = false)]
 
-    public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener, Android.App.DatePickerDialog.IOnDateSetListener
+    public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         Button connectionTest;
         FirebaseDatabase database;
@@ -51,62 +52,12 @@ namespace GNDISystemFinal
 
             //content page items
             MyRecyclerView = (RecyclerView)FindViewById(Resource.Id.myRecyclerView);
-        }
 
-        private void BtnLogin_Click(object sender, EventArgs e)
-        {
-            
-            
             addMember = (ImageView)FindViewById(Resource.Id.btnAddMember);
-            addMember.Click += AddMember_Click;
-        }
-
-        private void AddMember_Click(object sender, EventArgs e)
-        {
-            /*addmemberfragment = new addMemberFragment();
-            var trans = SupportFragmentManager.BeginTransaction();
-            addmemberfragment.Show(trans,"new member");*/
-            selectDate = (Button)FindViewById(Resource.Id.selectBirthdayButton);
-            cancelNewMemberSubmit= (Button)FindViewById(Resource.Id.newMemberSubmitCancelButton);
-            selectBirthday = (TextView)FindViewById(Resource.Id.selectedDateLabel);
-            SetContentView(Resource.Layout.newMember);
-            selectDate.Click += SelectDate_Click;
-            cancelNewMemberSubmit.Click += CancelNewMemberSubmit_Click;
-        }
-
-        private void CancelNewMemberSubmit_Click(object sender, EventArgs e)
-        {
-            SetContentView(Resource.Layout.activity_main);
-            Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-
-            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fab.Click += FabOnClick;
-
-            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
-            drawer.AddDrawerListener(toggle);
-            toggle.SyncState();
-
-            NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-            navigationView.SetNavigationItemSelectedListener(this);
-
-            //content page items
-            MyRecyclerView = (RecyclerView)FindViewById(Resource.Id.myRecyclerView);
-            addMember = (ImageView)FindViewById(Resource.Id.btnAddMember);
-            addMember.Click += AddMember_Click;
-        }
-
-        private void SelectDate_Click(object sender, EventArgs e)
-        {
-            var dateTimeNow = DateTime.Now;
-            DatePickerDialog datePicker = new DatePickerDialog(this, this, dateTimeNow.Year, dateTimeNow.Month, dateTimeNow.Day);
-            datePicker.Show();
-        }
-
-        public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
-        {
-            selectBirthday.Text = new DateTime(year, month, dayOfMonth).ToShortDateString();
+            addMember.Click += delegate
+            {
+                StartActivity(typeof(newMember));
+            };
         }
 
         public override void OnBackPressed()
