@@ -11,6 +11,9 @@ using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using Firebase.Database;
+using GNDISystemFinal.Helpers;
+using Java.Util;
 
 namespace GNDISystemFinal.Activities
 {
@@ -25,6 +28,7 @@ namespace GNDISystemFinal.Activities
         TextInputLayout telephone;
         Button submitButton;
         Button cancelButton;
+        string birthday;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -44,7 +48,41 @@ namespace GNDISystemFinal.Activities
             {
                 StartActivity(typeof(MainActivity));
             };
+
+            submitButton.Click += SubmitButton_Click;
             // Create your application here
+        }
+
+        private void SubmitButton_Click(object sender, EventArgs e)
+        {
+            string fullNameText = fullName.EditText.Text;
+            string nicText = nic.EditText.Text;
+            string emailText = email.EditText.Text;
+            string telephoneText = telephone.EditText.Text;
+            string selectedDateText = selectDate.Text;
+
+            HashMap memberInfo = new HashMap();
+            memberInfo.Put("fullName", fullNameText);
+            memberInfo.Put("NIC", nicText);
+            memberInfo.Put("Email", emailText);
+            memberInfo.Put("telephone Number", telephoneText);
+            memberInfo.Put("Birthday", birthday);
+
+            Android.App.AlertDialog.Builder saveMemberAlert = new Android.App.AlertDialog.Builder(this);
+            saveMemberAlert.SetTitle("Save Alumni Info");
+            saveMemberAlert.SetMessage("Are you sure?");
+            saveMemberAlert.SetPositiveButton("Continue", (senderAlert, args) =>
+            {
+                DatabaseReference newMemberRef = AppDataHelper.GetDatabase().GetReference("Member").Push();
+                newMemberRef.SetValue(memberInfo);
+                this.Dispose();
+            });
+            saveMemberAlert.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
+                saveMemberAlert.Dispose();
+            });
+
+            saveMemberAlert.Show();
         }
 
         private void SelectDate_Click(object sender, EventArgs e)
@@ -55,7 +93,8 @@ namespace GNDISystemFinal.Activities
         }
         public void OnDateSet(DatePicker view, int year, int month, int dayOfMonth)
         {
-            selectedDate.Text = new DateTime(year, month, dayOfMonth).ToShortDateString();
+            birthday = new DateTime(year, month+1, dayOfMonth).ToShortDateString();
+            selectedDate.Text= new DateTime(year, month + 1, dayOfMonth).ToShortDateString();
         }
     }
 }
