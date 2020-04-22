@@ -7,18 +7,24 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using Firebase;
 using Firebase.Database;
+using GNDISystemFinal.Fragment;
 
 namespace GNDISystemFinal
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         Button connectionTest;
         FirebaseDatabase database;
+        RecyclerView MyRecyclerView;
+        ImageView addMember;
+        addMemberFragment addmemberfragment;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -76,6 +82,18 @@ namespace GNDISystemFinal
 
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
+
+            //content page items
+            MyRecyclerView = (RecyclerView)FindViewById(Resource.Id.myRecyclerView);
+            addMember = (ImageView)FindViewById(Resource.Id.btnAddMember);
+            addMember.Click += AddMember_Click;
+        }
+
+        private void AddMember_Click(object sender, EventArgs e)
+        {
+            addmemberfragment = new addMemberFragment();
+            var trans = SupportFragmentManager.BeginTransaction();
+            addmemberfragment.Show(trans,"new member");
         }
 
         public override void OnBackPressed()
