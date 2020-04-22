@@ -109,20 +109,26 @@
                         android:hint="Phone Number"
                         android:imeOptions="actionNext"/>
                 </android.support.design.widget.TextInputLayout>
-                <Button
-                    android:layout_width="150dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Submit"
-                    android:id="@+id/newMemberSubmitButton"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"/>
-                <Button
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Cancel"
-                    android:id="@+id/newMemberSubmitCancelButton"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"/>
+                    android:id="@+id/buttonLayout">
+                    <Button
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Submit"
+                        android:id="@+id/newMemberSubmitButton"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"/>
+                    <Button
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cancel"
+                        android:id="@+id/newMemberSubmitCancelButton"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
             </LinearLayout>
         </TableLayout>
     </ScrollView>
