@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace GNDISystemFinal.Data_Models
 {
-    class member
+    public class member
     {
         public String name { get; set; }
         public String birthday { get; set; }

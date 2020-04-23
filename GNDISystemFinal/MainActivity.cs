@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android;
 using Android.App;
 using Android.OS;
@@ -10,9 +11,13 @@ using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AutoMapper;
 using Firebase;
 using Firebase.Database;
 using GNDISystemFinal.Activities;
+using GNDISystemFinal.Adapter;
+using GNDISystemFinal.Data_Models;
+using GNDISystemFinal.EventListners;
 using GNDISystemFinal.Fragment;
 
 namespace GNDISystemFinal
@@ -23,13 +28,15 @@ namespace GNDISystemFinal
     {
         Button connectionTest;
         FirebaseDatabase database;
-        RecyclerView MyRecyclerView;
+        RecyclerView myRecyclerView;
         ImageView addMember;
         addMemberFragment addmemberfragment;
         Button selectDate;
         Button submitNewMember;
         TextView selectBirthday;
         Button cancelNewMemberSubmit;
+        memberListner memberListner;
+        List<member> MemberList;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             SetContentView(Resource.Layout.activity_main);
@@ -51,13 +58,33 @@ namespace GNDISystemFinal
             navigationView.SetNavigationItemSelectedListener(this);
 
             //content page items
-            MyRecyclerView = (RecyclerView)FindViewById(Resource.Id.myRecyclerView);
+            RetriveData();
+            myRecyclerView = (RecyclerView)FindViewById(Resource.Id.myRecyclerView);
 
             addMember = (ImageView)FindViewById(Resource.Id.btnAddMember);
             addMember.Click += delegate
             {
                 StartActivity(typeof(newMember));
             };
+        }
+
+        public void RetriveData()
+        {
+            memberListner = new memberListner();
+            memberListner.create();
+            memberListner.memberRetrived += MemberListner_memberRetrived;
+        }
+
+        private void MemberListner_memberRetrived(object sender, memberListner.MemberDataEventArgs e)
+        {
+            MemberList = e.Member;
+            SetRecyclerView();
+        }
+        private void SetRecyclerView()
+        {
+            myRecyclerView.SetLayoutManager(new Android.Support.V7.Widget.LinearLayoutManager(myRecyclerView.Context));
+            memberAdapter adapter = new memberAdapter(MemberList);
+            myRecyclerView.SetAdapter(adapter);
         }
 
         public override void OnBackPressed()

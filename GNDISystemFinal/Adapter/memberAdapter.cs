@@ -5,6 +5,8 @@ using Android.Widget;
 using Android.Support.V7.Widget;
 using System.Collections.Generic;
 using GNDISystemFinal.Data_Models;
+using System.Drawing;
+using Android.Graphics;
 
 namespace GNDISystemFinal.Adapter
 {
@@ -41,6 +43,22 @@ namespace GNDISystemFinal.Adapter
             holder.lblBirthday.Text = Items[position].birthday;
             holder.lblAge.Text = Items[position].age;
             holder.lblVStatus.Text = Items[position].voteEligibility;
+            String[] Year = Items[position].birthday.Split("/");
+            if(DateTime.Now.Year - Int32.Parse(Year[2]) > 18)
+            {
+                holder.lblVStatus.Text = "Eligible";
+                holder.lblVStatus.SetTextColor(Android.Graphics.Color.LightGreen);
+            }
+            else if(DateTime.Now.Year - Int32.Parse(Year[2]) < 18)
+            {
+                holder.lblVStatus.Text = "Ineligible";
+                holder.lblVStatus.SetTextColor(Android.Graphics.Color.Red);
+            }
+            int age = DateTime.Now.Year - Int32.Parse(Year[2]);
+            string num = Convert.ToString(age);
+            holder.lblAge.Text=num;
+
+
         }
 
         public override int ItemCount => Items.Count;

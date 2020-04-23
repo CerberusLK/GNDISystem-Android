@@ -48,12 +48,45 @@ namespace GNDISystemFinal.Activities
             {
                 StartActivity(typeof(MainActivity));
             };
+            submitButton.Click += delegate
+            {
+                string fullNameText = fullName.EditText.Text;
+                string nicText = nic.EditText.Text;
+                string emailText = email.EditText.Text;
+                string telephoneText = telephone.EditText.Text;
+                string selectedDateText = selectDate.Text;
 
-            submitButton.Click += SubmitButton_Click;
+                HashMap memberInfo = new HashMap();
+                memberInfo.Put("fullName", fullNameText);
+                memberInfo.Put("NIC", nicText);
+                memberInfo.Put("Email", emailText);
+                memberInfo.Put("telephone Number", telephoneText);
+                memberInfo.Put("Birthday", birthday);
+
+                Android.App.AlertDialog.Builder saveMemberAlert = new Android.App.AlertDialog.Builder(this);
+                saveMemberAlert.SetTitle("Save Alumni Info");
+                saveMemberAlert.SetMessage("Are you sure?");
+                saveMemberAlert.SetPositiveButton("Continue", (senderAlert, args) =>
+                {
+                    DatabaseReference newMemberRef = AppDataHelper.GetDatabase().GetReference("Member").Push();
+                    newMemberRef.SetValue(memberInfo);
+                    StartActivity(typeof(MainActivity));
+                    this.Dispose();
+
+                });
+                saveMemberAlert.SetNegativeButton("Cancel", (senderAlert, args) =>
+                {
+                    saveMemberAlert.Dispose();
+                });
+
+                saveMemberAlert.Show();
+            };
+
+            //submitButton.Click += SubmitButton_Click;
             // Create your application here
         }
 
-        private void SubmitButton_Click(object sender, EventArgs e)
+        /*private void SubmitButton_Click(object sender, EventArgs e)
         {
             string fullNameText = fullName.EditText.Text;
             string nicText = nic.EditText.Text;
@@ -83,7 +116,7 @@ namespace GNDISystemFinal.Activities
             });
 
             saveMemberAlert.Show();
-        }
+        }*/
 
         private void SelectDate_Click(object sender, EventArgs e)
         {

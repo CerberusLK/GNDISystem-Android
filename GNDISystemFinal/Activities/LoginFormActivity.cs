@@ -29,6 +29,7 @@ namespace GNDISystemFinal.Activities
         Button submitNewMember;
         TextView selectBirthday;
         Button cancelNewMemberSubmit;
+        Button addmember;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             SetContentView(Resource.Layout.LoginForm);
@@ -38,6 +39,11 @@ namespace GNDISystemFinal.Activities
             {
                 StartActivity(typeof(MainActivity));
 
+            };
+            addmember = (Button)FindViewById(Resource.Id.addmember);
+            addmember.Click += delegate
+            {
+                StartActivity(typeof(newMember));
             };
 
             //connection test purpose only

@@ -60,4 +60,10 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:id="@+id/btnTestConnection"/>
+    <Button
+        android:layout_width="60pt"
+        android:layout_height="wrap_content"
+        android:text="add member"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/addmember"/>
 </LinearLayout>
